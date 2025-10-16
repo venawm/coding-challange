@@ -1,8 +1,13 @@
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import LoginPage from "./pages/Login";
+
 function App() {
   return (
-    <div className="px-2 py-2">
-      <button className="btn">Default</button>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+      </Routes>
+    </Router>
   );
 }
 
