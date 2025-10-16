@@ -1,8 +1,10 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import LoginPage from "./pages/Login";
 import { AuthProvider } from "./context/AuthContext";
-import UsersListPage from "./pages/Users";
+
 import ProtectedRoute from "./components/protected-route";
+import Layout from "./components/dashboard/layout";
+import UsersPage from "./pages/Users";
 
 function App() {
   return (
@@ -13,9 +15,11 @@ function App() {
           <Route
             path="/users"
             element={
-              <ProtectedRoute>
-                <UsersListPage />
-              </ProtectedRoute>
+              // <ProtectedRoute>
+              <Layout>
+                <UsersPage />
+              </Layout>
+              // </ProtectedRoute>
             }
           />
         </Routes>
