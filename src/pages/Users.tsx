@@ -48,9 +48,9 @@ const UsersPage: React.FC = () => {
 
   return (
     <>
-      <h1 className="text-2xl font-bold mb-6">Users</h1>
+      <h1 className="text-2xl font-bold mb-4">Users</h1>
 
-      <div className="bg-base-100 rounded-xl p-4 mb-4">
+      <div className="bg-base-100 rounded-xl p-0 mb-4">
         <div className="flex gap-3 items-center flex-wrap">
           <SearchBar value={search} onChange={setSearch} />
           <SortControls

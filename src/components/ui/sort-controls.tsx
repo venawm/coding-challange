@@ -6,7 +6,7 @@ const SortControls: React.FC<{
 }> = ({ sortBy, sortOrder, onSortChange, onOrderToggle }) => (
   <>
     <select
-      className="select select-sm bg-base-200 border-0 rounded-lg"
+      className="select select-md bg-base-200 border-0 rounded-lg"
       value={sortBy}
       onChange={(e) => onSortChange(e.target.value)}
     >
@@ -15,7 +15,7 @@ const SortControls: React.FC<{
       <option value="email">Email</option>
     </select>
     <button
-      className="btn btn-sm bg-base-200 border-0 rounded-lg"
+      className="btn btn-md bg-base-200 border-0 rounded-lg"
       onClick={onOrderToggle}
     >
       {sortOrder === "asc" ? "↑ Asc" : "↓ Desc"}

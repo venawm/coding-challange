@@ -13,7 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route
-            path="/users"
+            path="/dashboard/users"
             element={
               // <ProtectedRoute>
               <Layout>

@@ -9,7 +9,7 @@ const SearchBar: React.FC<{ value: string; onChange: (v: string) => void }> = ({
     <input
       type="text"
       placeholder="Search users..."
-      className="input input-sm w-full pl-10 bg-base-200 border-0 rounded-lg"
+      className="input input-md w-full pl-4 bg-base-200 border-0  rounded-lg"
       value={value}
       onChange={(e) => onChange(e.target.value)}
     />
