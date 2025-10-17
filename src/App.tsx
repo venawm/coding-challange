@@ -13,7 +13,6 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <ThemeSwitcher />
         <PreferencesProvider>
           <Routes>
             {/* Public */}

@@ -27,7 +27,8 @@ const Layout: React.FC = () => {
         <label
           htmlFor="my-drawer"
           aria-label="close sidebar"
-          className="drawer-overlay"
+          // Add a background color with opacity here
+          className="drawer-overlay bg-black/30"
         ></label>
 
         <div className="w-64 min-h-full border-r border-base-200 ">

@@ -39,7 +39,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       }
 
       try {
-        console.log(storedToken, refreshToken);
         // Try to verify with stored token
         const response = await axios.get<User>(`${API_BASE_URL}/me`, {
           headers: { Authorization: `Bearer ${storedToken}` },

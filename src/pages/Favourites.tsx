@@ -5,6 +5,7 @@ import UserRow from "../components/ui/user-row";
 import Pagination from "../components/ui/pagination";
 import { usePreferences } from "../context/UserPreferencesContext";
 import ItemsPerPageSelector from "../components/ui/item-per-page-selector";
+import LoadingSpinner from "../components/ui/loader";
 
 const FavoritesPage: React.FC = () => {
   const { favorites, page, itemsPerPage, setPage } = usePreferences();
@@ -89,9 +90,7 @@ const FavoritesPage: React.FC = () => {
 
           <div className="bg-base-100 rounded-xl overflow-hidden">
             {loading ? (
-              <div className="flex justify-center items-center h-64">
-                <span className="loading loading-spinner loading-lg"></span>
-              </div>
+              <LoadingSpinner />
             ) : (
               <>
                 <div className="overflow-x-auto">

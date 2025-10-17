@@ -4,7 +4,7 @@ const SortControls: React.FC = () => {
   const { sortBy, sortOrder, setSortBy, setSortOrder } = usePreferences();
 
   return (
-    <>
+    <div className="flex gap-3 w-full">
       <select
         className="select select-sm bg-base-200 border-0 rounded-lg"
         value={sortBy}
@@ -20,7 +20,7 @@ const SortControls: React.FC = () => {
       >
         {sortOrder === "asc" ? "↑ Asc" : "↓ Desc"}
       </button>
-    </>
+    </div>
   );
 };
 

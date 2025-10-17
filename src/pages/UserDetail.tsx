@@ -73,7 +73,7 @@ const UserProfile: React.FC = () => {
         Back
       </Link>
 
-      <div className="min-h-screen bg- ">
+      <div className="min-h-screen bg-base-200 ">
         <div className="max-w-7xl mx-auto">
           <Card className="overflow-hidden">
             <div className="flex flex-col lg:flex-row">

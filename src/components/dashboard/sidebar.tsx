@@ -1,6 +1,7 @@
 import { LogOut, UserCircle, StarIcon } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import ThemeSwitcher from "../ui/theme-switch";
 
 type MenuItem = {
   href: string;
@@ -11,6 +12,16 @@ type MenuItem = {
 const Sidebar: React.FC = () => {
   const location = useLocation();
   const { logout } = useAuth();
+
+  // 1. Define a handler to close the drawer
+  const handleLinkClick = () => {
+    // We need to find the checkbox that controls the drawer
+    const elem = document.getElementById("my-drawer") as HTMLInputElement;
+    if (elem) {
+      // Uncheck the checkbox to close the drawer
+      elem.checked = false;
+    }
+  };
 
   const menuItems: MenuItem[] = [
     {
@@ -32,18 +43,19 @@ const Sidebar: React.FC = () => {
         <div className="w-10 h-10 bg-primary text-primary-content rounded-lg flex items-center justify-center font-bold text-xl">
           U
         </div>
-        <span className="font-bold text-xl">User Portal</span>
+        <span className="font-bold text-xl">User Portal</span> <ThemeSwitcher />
       </div>
 
       {/* Navigation Menu */}
-      <ul className="menu p-4 flex-1 gap-2 w-full">
+      <ul className="menu p-4 flex-1 gap-2">
         {menuItems.map((item) => {
           const isActive = location.pathname === item.href;
-
           return (
             <li key={item.label} className="w-full">
               <Link
                 to={item.href}
+                // 2. Attach the click handler to each link
+                onClick={handleLinkClick}
                 className={`flex items-center gap-2 px-3 py-2  rounded-md ${
                   isActive
                     ? "bg-base-200 font-semibold hover:bg-base-300"

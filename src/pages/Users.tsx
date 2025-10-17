@@ -8,6 +8,7 @@ import Pagination from "../components/ui/pagination";
 import ItemsPerPageSelector from "../components/ui/item-per-page-selector";
 import { usePreferences } from "../context/UserPreferencesContext";
 import LoadingSpinner from "../components/ui/loader";
+import ThemeSwitcher from "../components/ui/theme-switch";
 
 const UsersPage: React.FC = () => {
   const preferences = usePreferences();
@@ -57,16 +58,17 @@ const UsersPage: React.FC = () => {
           onClick={resetPreferences}
         >
           Reset Preferences
-        </button>
+        </button>{" "}
       </div>
 
-      <div className="bg-base-100 rounded-xl p-4 space-y-3">
-        <SearchBar value={search} onChange={setSearch} />
-
-        <div className="flex gap-3 flex-wrap">
+      <div className="bg-base-100 rounded-xl p-2 gap-2 grid grid-cols-1 md:grid-cols-3 justify-between">
+        <div className=" col-span-2">
+          <SearchBar value={search} onChange={setSearch} />
+        </div>
+        <div className="flex flex-col md:flex-row gap-2 w-full">
           <SortControls />
           <ItemsPerPageSelector />
-        </div>
+        </div>{" "}
       </div>
 
       <div className="bg-base-100 rounded-xl overflow-hidden">
