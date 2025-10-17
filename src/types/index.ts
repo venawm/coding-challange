@@ -1,3 +1,15 @@
+interface Address {
+  address: string;
+  city: string;
+  state: string;
+  postalCode: string;
+}
+
+interface Company {
+  name: string;
+  title: string;
+  address: Address;
+}
 export interface User {
   id: number;
   firstName: string;
@@ -5,8 +17,14 @@ export interface User {
   email: string;
   phone: string;
   image: string;
-  company: { name: string };
-  role: string;
+  birthDate: string;
+  gender: string;
+  address: Address;
+  company: Company;
+  domain: string;
+  university?: string;
+  role?: string;
+  ein?: string;
 }
 
 export interface UsersResponse {

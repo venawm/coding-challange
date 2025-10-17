@@ -5,6 +5,7 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/protected-route";
 import Layout from "./components/dashboard/layout";
 import UsersPage from "./pages/Users";
+import UserDetailPage from "./pages/UserDetail";
 
 function App() {
   return (
@@ -18,6 +19,16 @@ function App() {
               // <ProtectedRoute>
               <Layout>
                 <UsersPage />
+              </Layout>
+              // </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/users/:userId"
+            element={
+              // <ProtectedRoute>
+              <Layout>
+                <UserDetailPage />
               </Layout>
               // </ProtectedRoute>
             }
