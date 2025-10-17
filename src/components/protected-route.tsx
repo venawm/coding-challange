@@ -6,6 +6,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { user, isLoading } = useAuth();
+  console.log(user);
 
   if (isLoading) {
     return (

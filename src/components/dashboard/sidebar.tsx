@@ -1,4 +1,4 @@
-import { LogOut, UserCircle, LayoutDashboard, StarIcon } from "lucide-react";
+import { LogOut, UserCircle, StarIcon } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
 type MenuItem = {
@@ -7,7 +7,7 @@ type MenuItem = {
   icon: React.ReactNode;
 };
 
-const Sidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
+const Sidebar: React.FC = () => {
   const location = useLocation();
 
   const menuItems: MenuItem[] = [
@@ -58,10 +58,7 @@ const Sidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
 
       {/* Logout Footer */}
       <div className="p-4 border-t border-base-200">
-        <button
-          onClick={onLogout}
-          className="btn btn-ghost w-full justify-start"
-        >
+        <button className="btn btn-ghost w-full justify-start">
           <LogOut className="w-5 h-5" />
           Logout
         </button>

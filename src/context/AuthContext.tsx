@@ -2,17 +2,7 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import type { ReactNode } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-// User Interface
-interface User {
-  id: number;
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  image: string;
-}
+import type { User } from "../types";
 
 interface AuthContextType {
   user: User | null;
@@ -32,39 +22,80 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(
-    localStorage.getItem("token")
-  );
-  const [refreshToken, setRefreshToken] = useState<string | null>(
-    localStorage.getItem("refreshToken")
-  );
+  const [token, setToken] = useState<string | null>(null);
+  const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Verify user token on first load
+  // Single effect to initialize and verify user on mount
   useEffect(() => {
-    const verifyUser = async () => {
-      if (token) {
-        try {
-          const response = await axios.get<User>(`${API_BASE_URL}/me`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          setUser(response.data);
-        } catch {
-          logout();
-        }
-      }
-      setIsLoading(false);
-    };
-    verifyUser();
-  }, [token]);
+    const initializeAuth = async () => {
+      const storedToken = localStorage.getItem("token");
+      const storedRefreshToken = localStorage.getItem("refreshToken");
 
+      if (!storedToken) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        console.log(storedToken, refreshToken);
+        // Try to verify with stored token
+        const response = await axios.get<User>(`${API_BASE_URL}/me`, {
+          headers: { Authorization: `Bearer ${storedToken}` },
+        });
+
+        setToken(storedToken);
+        setRefreshToken(storedRefreshToken);
+        setUser(response.data);
+      } catch (error) {
+        // Token is invalid, try to refresh it
+        if (storedRefreshToken) {
+          try {
+            const refreshResponse = await axios.post<{
+              token: string;
+              refreshToken: string;
+            }>(`${API_BASE_URL}/refresh`, { refreshToken: storedRefreshToken });
+
+            const newToken = refreshResponse.data.token;
+            const newRefreshToken = refreshResponse.data.refreshToken;
+
+            localStorage.setItem("token", newToken);
+            localStorage.setItem("refreshToken", newRefreshToken);
+
+            setToken(newToken);
+            setRefreshToken(newRefreshToken);
+
+            // Verify with new token
+            const userResponse = await axios.get<User>(`${API_BASE_URL}/me`, {
+              headers: { Authorization: `Bearer ${newToken}` },
+            });
+
+            setUser(userResponse.data);
+          } catch {
+            logoutUser();
+          }
+        } else {
+          logoutUser();
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeAuth();
+  }, []);
+
+  // Auto-refresh token interval
   useEffect(() => {
+    if (!token || !refreshToken) return;
+
     const interval = setInterval(() => {
-      if (refreshToken) refreshAuthToken();
-    }, 25 * 60 * 1000);
+      refreshAuthToken();
+    }, 25 * 60 * 1000); // 25 minutes
+
     return () => clearInterval(interval);
-  }, [refreshToken]);
+  }, [token, refreshToken]);
 
   // Login function
   const login = async (
@@ -73,15 +104,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   ): Promise<{ success: boolean; message?: string }> => {
     try {
       const response = await axios.post<
-        User & { token: string; refreshToken: string }
+        User & { accessToken: string; refreshToken: string }
       >(`${API_BASE_URL}/login`, { username, password, expiresInMins: 30 });
-      const { token, refreshToken, ...userData } = response.data;
+
+      const { accessToken, refreshToken, ...userData } = response.data;
 
       setToken(token);
       setRefreshToken(refreshToken);
       setUser(userData);
 
-      localStorage.setItem("token", token);
+      localStorage.setItem("token", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
 
       navigate("/dashboard/users");
@@ -94,44 +126,50 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  // Logout function
-  const logout = () => {
-    setUser(null);
-    setToken(null);
-    setRefreshToken(null);
-    localStorage.clear();
-    navigate("/");
-  };
-
   // Refresh token function
   const refreshAuthToken = async () => {
     if (!refreshToken) return;
+
     try {
       const response = await axios.post<{
         token: string;
         refreshToken: string;
-      }>(
-        `${API_BASE_URL}/refresh`,
-        { refreshToken },
-        { headers: { "Content-Type": "application/json" } }
-      );
-      setToken(response.data.token);
-      setRefreshToken(response.data.refreshToken);
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("refreshToken", response.data.refreshToken);
+      }>(`${API_BASE_URL}/refresh`, { refreshToken });
+
+      const newToken = response.data.token;
+      const newRefreshToken = response.data.refreshToken;
+
+      setToken(newToken);
+      setRefreshToken(newRefreshToken);
+      localStorage.setItem("token", newToken);
+      localStorage.setItem("refreshToken", newRefreshToken);
     } catch {
-      logout();
+      logoutUser();
     }
   };
 
-  const value = { user, isLoading, login, logout };
+  // Logout function
+  const logoutUser = () => {
+    setUser(null);
+    setToken(null);
+    setRefreshToken(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    navigate("/");
+  };
+
+  const value = {
+    user,
+    isLoading,
+    login,
+    logout: logoutUser,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-// Custom hook for easy access to the auth context
 export const useAuth = (): AuthContextType => {
-  const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used within an AuthProvider");
-  return context;
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used within an AuthProvider");
+  return ctx;
 };
