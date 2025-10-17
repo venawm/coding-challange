@@ -10,10 +10,9 @@ const LoginPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  // 3. If user is already logged in, redirect them to the profile page
-  //   if (user) {
-  //     return <Navigate to="/profile" replace />;
-  //   }
+  if (user) {
+    return <Navigate to="/dashboard/users" replace />;
+  }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

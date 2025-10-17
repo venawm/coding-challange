@@ -26,7 +26,7 @@ const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside className="bg-base-100 text-base-content w-64 min-h-screen flex flex-col">
+    <aside className="bg-base-100 text-base-content w-64 h-screen md:h-auto flex flex-col">
       {/* Logo / Header */}
       <div className="p-4 flex items-center gap-3 border-b border-base-200">
         <div className="w-10 h-10 bg-primary text-primary-content rounded-lg flex items-center justify-center font-bold text-xl">
@@ -36,15 +36,15 @@ const Sidebar: React.FC = () => {
       </div>
 
       {/* Navigation Menu */}
-      <ul className="menu p-4 flex-1 gap-2">
+      <ul className="menu p-4 flex-1 gap-2 w-full">
         {menuItems.map((item) => {
           const isActive = location.pathname === item.href;
 
           return (
-            <li key={item.label}>
+            <li key={item.label} className="w-full">
               <Link
                 to={item.href}
-                className={`flex items-center gap-2 px-3 py-2 rounded-md ${
+                className={`flex items-center gap-2 px-3 py-2  rounded-md ${
                   isActive
                     ? "bg-base-200 font-semibold hover:bg-base-300"
                     : "hover:bg-base-300"

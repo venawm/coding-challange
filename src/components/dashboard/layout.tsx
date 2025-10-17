@@ -7,7 +7,7 @@ const Layout: React.FC = () => {
     <div className="drawer lg:drawer-open">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
 
-      <div className="drawer-content flex flex-col items-start px-6 py-4">
+      <div className="drawer-content flex flex-col items-start px-8 py-4">
         <label
           htmlFor="my-drawer"
           className="btn btn-square btn-ghost mb-4 lg:hidden"
@@ -30,7 +30,7 @@ const Layout: React.FC = () => {
           className="drawer-overlay"
         ></label>
 
-        <div className="w-64 min-h-full border-r border-base-200">
+        <div className="w-64 min-h-full border-r border-base-200 ">
           <Sidebar />
         </div>
       </div>

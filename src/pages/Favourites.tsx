@@ -58,7 +58,6 @@ const FavoritesPage: React.FC = () => {
     if (page !== 1) setPage(1);
   }, [favorites, page, setPage]);
 
-  // Load favorites whenever favorites, page, or itemsPerPage change
   useEffect(() => {
     loadFavorites();
   }, [loadFavorites]);

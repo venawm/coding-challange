@@ -1,8 +1,30 @@
 import { usePreferences } from "../../context/UserPreferencesContext";
 
-const Pagination: React.FC<{ total: number }> = ({ total }) => {
+interface PaginationProps {
+  total: number;
+}
+
+const Pagination: React.FC<PaginationProps> = ({ total }) => {
   const { page, itemsPerPage, setPage } = usePreferences();
   const totalPages = Math.ceil(total / itemsPerPage);
+
+  if (totalPages <= 1) return null;
+
+  // Determine which page numbers to show (window of 5)
+  const visiblePages = (() => {
+    const pages = [];
+    let start = Math.max(1, page - 2);
+    let end = Math.min(totalPages, page + 2);
+
+    // Adjust window if near start or end
+    if (page <= 3) end = Math.min(5, totalPages);
+    if (page >= totalPages - 2) start = Math.max(totalPages - 4, 1);
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    return pages;
+  })();
 
   return (
     <div className="flex justify-between items-center p-4 border-t border-base-300 flex-wrap gap-4">
@@ -18,18 +40,47 @@ const Pagination: React.FC<{ total: number }> = ({ total }) => {
         >
           Previous
         </button>
-        {[...Array(Math.min(5, totalPages))].map((_, i) => (
+
+        {visiblePages[0] > 1 && (
+          <>
+            <button
+              className="btn btn-sm rounded-lg"
+              onClick={() => setPage(1)}
+            >
+              1
+            </button>
+            {visiblePages[0] > 2 && (
+              <span className="flex items-center">...</span>
+            )}
+          </>
+        )}
+
+        {visiblePages.map((p) => (
           <button
-            key={i + 1}
+            key={p}
             className={`btn btn-sm rounded-lg ${
-              page === i + 1 ? "btn-primary" : ""
+              page === p ? "btn-primary" : ""
             }`}
-            onClick={() => setPage(i + 1)}
+            onClick={() => setPage(p)}
           >
-            {i + 1}
+            {p}
           </button>
         ))}
-        {totalPages > 5 && <span className="flex items-center">...</span>}
+
+        {visiblePages[visiblePages.length - 1] < totalPages && (
+          <>
+            {visiblePages[visiblePages.length - 1] < totalPages - 1 && (
+              <span className="flex items-center">...</span>
+            )}
+            <button
+              className="btn btn-sm rounded-lg"
+              onClick={() => setPage(totalPages)}
+            >
+              {totalPages}
+            </button>
+          </>
+        )}
+
         <button
           className="btn btn-sm rounded-lg"
           disabled={page === totalPages}
