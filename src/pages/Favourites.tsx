@@ -42,7 +42,6 @@ const FavoritesPage: React.FC = () => {
 
       setTotal(validUsers.length);
 
-      // Apply pagination
       const start = (page - 1) * itemsPerPage;
       setUsers(validUsers.slice(start, start + itemsPerPage) as User[]);
     } catch (err) {
@@ -105,7 +104,7 @@ const FavoritesPage: React.FC = () => {
                         <th className="bg-base-100">Role</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody onClick={() => window.location.reload()}>
                       {users.length > 0 ? (
                         users.map((user) => (
                           <UserRow key={user.id} user={user} />

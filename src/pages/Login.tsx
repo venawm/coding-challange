@@ -5,8 +5,8 @@ import { useAuth } from "../context/AuthContext";
 
 const LoginPage: React.FC = () => {
   const { login, user } = useAuth();
-  const [username, setUsername] = useState("kminchelle");
-  const [password, setPassword] = useState("0lelplR");
+  const [username, setUsername] = useState("emilys");
+  const [password, setPassword] = useState("emilyspass");
   const [error, setError] = useState<string | null>(null);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 

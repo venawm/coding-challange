@@ -5,9 +5,15 @@ import { usePreferences } from "../../context/UserPreferencesContext";
 const UserRow: React.FC<{ user: User }> = ({ user }) => {
   const { favorites, toggleFavorite } = usePreferences();
   const isFavorite = favorites.includes(user.id);
+  const navigate = useNavigate();
 
   return (
-    <tr className="border-b border-base-300 hover:bg-base-200">
+    <tr
+      className="border-b border-base-300 hover:bg-base-200 hover:cursor-pointer"
+      onClick={() => {
+        navigate(`/dashboard/users/${user.id}`);
+      }}
+    >
       <td>
         <button
           className="btn btn-ghost btn-xs"

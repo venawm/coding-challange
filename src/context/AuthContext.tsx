@@ -84,7 +84,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       localStorage.setItem("token", token);
       localStorage.setItem("refreshToken", refreshToken);
 
-      navigate("/profile");
+      navigate("/dashboard/users");
       return { success: true };
     } catch (error: any) {
       return {
@@ -100,7 +100,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     setToken(null);
     setRefreshToken(null);
     localStorage.clear();
-    navigate("/login");
+    navigate("/");
   };
 
   // Refresh token function

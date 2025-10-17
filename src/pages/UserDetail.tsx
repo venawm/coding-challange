@@ -70,10 +70,10 @@ const UserProfile: React.FC = () => {
         className="inline-flex items-center gap-2 text-sm  mb-2"
       >
         <ArrowLeft className="w-4 h-4" />
-        Back to Users
+        Back
       </Link>
 
-      <div className="min-h-screen bg-base-200 ">
+      <div className="min-h-screen bg- ">
         <div className="max-w-7xl mx-auto">
           <Card className="overflow-hidden">
             <div className="flex flex-col lg:flex-row">

@@ -61,7 +61,7 @@ export const PreferencesProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsHydrated(true);
   }, []);
 
-  // Save to localStorage whenever state changes (after hydration)
+  // Save to localStorage whenever state changes
 
   useEffect(() => {
     if (isHydrated) {
