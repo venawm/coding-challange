@@ -1,73 +1,127 @@
-# React + TypeScript + Vite
+# 🧑‍💻 User Management Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A **ReactJS + TypeScript** application that demonstrates full authentication, user listing, detailed views, pagination, and persistent preferences — all powered by the [DummyJSON API](https://dummyjson.com/docs/users).
 
-Currently, two official plugins are available:
+> **Objective:** Build a production-ready ReactJS application that handles login, displays a list of users, manages favorites, and maintains state via React Context and local persistence.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 🔐 1. User Authentication
 
-## Expanding the ESLint configuration
+- Login using the [DummyJSON Auth API](https://dummyjson.com/docs/auth).
+- Full token management with refresh token support.
+- Persistent session (auto-restore on page reload).
+- Clean and responsive login screen with custom styling.
+- Automatic redirect to dashboard for authenticated users.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 👥 2. User List Page
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Fetch and display users from [`https://dummyjson.com/users`](https://dummyjson.com/users)
+- Pagination with configurable items per page.
+- Search functionality to filter users by name, email, or username.
+- Sort users by name, email, or status.
+- Fully responsive design with mobile-first approach.
+- Click on any user to view detailed information.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 👤 3. User Detail Page
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Fetch user details from [`https://dummyjson.com/users/{id}`](https://dummyjson.com/users/{id}).
+- Display comprehensive profile info: name, email, phone, address, company.
+- Show user ratings, location data, and contact information.
+- "Back to List" button for easy navigation.
+- Mark/unmark users as favorites from detail view.
+
+### 🌗 4. Theme & Preferences
+
+- Light/Dark theme toggle with persistent storage.
+- Customizable items per page setting.
+- "Reset Preferences" button to restore defaults.
+- Theme preference restored automatically on app reload.
+- Smooth transitions between theme changes.
+
+### ⭐ 5. Favorites Management
+
+- Mark/unmark users as favorites with a single click.
+- Persistent favorites across page reloads using localStorage.
+- Dedicated `/dashboard/favourites` page for saved users.
+- Visual indicator for favorited users throughout the app.
+- Quick access to manage your favorite users.
+
+---
+
+## 🛠️ Tech Stack
+
+| Category         | Technology              |
+| ---------------- | ----------------------- |
+| Frontend         | React 19+, TypeScript   |
+| Routing          | React Router v7         |
+| Styling          | TailwindCSS             |
+| Icons            | Lucide React            |
+| State Management | React Context API       |
+| Data Fetching    | Axios                   |
+| Build Tool       | Vite                    |
+| HTTP Client      | Axios with interceptors |
+| Package Manager  | npm / yarn              |
+| Linting          | ESLint                  |
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1️⃣ Clone the repository
+
+```bash
+git clone https://github.com/<your-username>/coding-challenge.git
+cd coding-challenge
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2️⃣ Install dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+# or
+yarn install
 ```
+
+### 3️⃣ Create environment file
+
+Create a `.env` file in the project root:
+
+```env
+VITE_API_BASE_URL=https://dummyjson.com
+```
+
+### 4️⃣ Start the development server
+
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+The application will be available at `http://localhost:5173`
+
+### 5️⃣ Build for production
+
+```bash
+npm run build
+# or
+yarn build
+```
+
+---
+
+## 🔑 Demo Credentials
+
+Use these credentials to test the application:
+
+```
+Username: emilys
+Password: emilyspass
+```
+
+Or use any username/password from the [DummyJSON documentation](https://dummyjson.com/docs/auth).
+
+---
