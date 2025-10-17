@@ -14,6 +14,20 @@ export const api = {
       : `https://dummyjson.com/users?limit=${limit}&skip=${skip}&sortBy=${sortBy}&order=${sortOrder}`;
 
     const res = await fetch(url);
-    return res.json();
+    const data = await res.json();
+
+    return {
+      users: (data.users || []).map((u: any) => ({
+        id: u.id,
+        firstName: u.firstName,
+        lastName: u.lastName,
+        email: u.email,
+        phone: u.phone,
+        image: u.image,
+        company: { name: u.company?.name || "N/A" },
+        role: u.role || "User",
+      })),
+      total: data.total || 0,
+    };
   },
 };

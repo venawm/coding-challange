@@ -23,7 +23,7 @@ export interface User {
   company: Company;
   domain: string;
   university?: string;
-  role?: string;
+  role: string;
   ein?: string;
 }
 

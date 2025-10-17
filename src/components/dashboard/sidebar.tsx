@@ -1,4 +1,4 @@
-import { LogOut, UserCircle, LayoutDashboard } from "lucide-react";
+import { LogOut, UserCircle, LayoutDashboard, StarIcon } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
 type MenuItem = {
@@ -17,9 +17,9 @@ const Sidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
       icon: <UserCircle className="w-5 h-5" />,
     },
     {
-      href: "/dashboard",
-      label: "Dashboard",
-      icon: <LayoutDashboard className="w-5 h-5" />,
+      href: "/dashboard/favourites",
+      label: "Favourites",
+      icon: <StarIcon className="w-5 h-5" />,
     },
   ];
 
@@ -34,7 +34,7 @@ const Sidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
       </div>
 
       {/* Navigation Menu */}
-      <ul className="menu p-4 flex-1">
+      <ul className="menu p-4 flex-1 gap-2">
         {menuItems.map((item) => {
           const isActive = location.pathname === item.href;
 

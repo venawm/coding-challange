@@ -1,27 +1,36 @@
 import { useEffect, useState } from "react";
-import type { User, UsersResponse } from "../types";
+import type { User } from "../types";
 import { api } from "../services/api";
 import SearchBar from "../components/ui/searchbar";
 import SortControls from "../components/ui/sort-controls";
 import UserRow from "../components/ui/user-row";
 import Pagination from "../components/ui/pagination";
+import ItemsPerPageSelector from "../components/ui/item-per-page-selector";
+import { usePreferences } from "../context/UserPreferencesContext";
 
 const UsersPage: React.FC = () => {
+  const preferences = usePreferences();
+  const {
+    page,
+    itemsPerPage,
+    sortBy,
+    sortOrder,
+    search,
+    setSearch,
+    resetPreferences,
+  } = preferences;
+
   const [users, setUsers] = useState<User[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
-  const [sortBy, setSortBy] = useState("firstName");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const loadUsers = async () => {
     setLoading(true);
     try {
-      const data: UsersResponse = await api.fetchUsers({
+      const data = await api.fetchUsers({
         search,
         page,
-        limit: 10,
+        limit: itemsPerPage,
         sortBy,
         sortOrder,
       });
@@ -36,31 +45,26 @@ const UsersPage: React.FC = () => {
 
   useEffect(() => {
     loadUsers();
-  }, [page, sortBy, sortOrder]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setPage(1);
-      loadUsers();
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [search]);
+  }, [page, itemsPerPage, sortBy, sortOrder, search]);
 
   return (
-    <>
-      <h1 className="text-2xl font-bold mb-4">Users</h1>
+    <div className="space-y-4">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold">Users</h1>
+        <button
+          className="btn btn-sm btn-outline rounded-lg"
+          onClick={resetPreferences}
+        >
+          Reset Preferences
+        </button>
+      </div>
 
-      <div className="bg-base-100 rounded-xl p-0 mb-4">
-        <div className="flex gap-3 items-center flex-wrap">
-          <SearchBar value={search} onChange={setSearch} />
-          <SortControls
-            sortBy={sortBy}
-            sortOrder={sortOrder}
-            onSortChange={setSortBy}
-            onOrderToggle={() =>
-              setSortOrder(sortOrder === "asc" ? "desc" : "asc")
-            }
-          />
+      <div className="bg-base-100 rounded-xl p-4 space-y-3">
+        <SearchBar value={search} onChange={setSearch} />
+
+        <div className="flex gap-3 flex-wrap">
+          <SortControls />
+          <ItemsPerPageSelector />
         </div>
       </div>
 
@@ -75,6 +79,7 @@ const UsersPage: React.FC = () => {
               <table className="table">
                 <thead>
                   <tr className="border-b border-base-300">
+                    <th className="bg-base-100 w-12">Favorite</th>
                     <th className="bg-base-100">User</th>
                     <th className="bg-base-100">Email</th>
                     <th className="bg-base-100">Phone</th>
@@ -83,22 +88,23 @@ const UsersPage: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user) => (
-                    <UserRow key={user.id} user={user} />
-                  ))}
+                  {users.length > 0 ? (
+                    users.map((user) => <UserRow key={user.id} user={user} />)
+                  ) : (
+                    <tr>
+                      <td colSpan={6} className="text-center py-8 opacity-60">
+                        No users found
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
-            <Pagination
-              page={page}
-              total={total}
-              limit={10}
-              onPageChange={setPage}
-            />
+            <Pagination total={total} />
           </>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

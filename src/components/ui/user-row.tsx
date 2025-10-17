@@ -1,14 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import type { User } from "../../types";
+import { usePreferences } from "../../context/UserPreferencesContext";
 
 const UserRow: React.FC<{ user: User }> = ({ user }) => {
-  const navigate = useNavigate();
+  const { favorites, toggleFavorite } = usePreferences();
+  const isFavorite = favorites.includes(user.id);
 
   return (
-    <tr
-      className="border-b border-base-300 hover:bg-base-200 cursor-pointer"
-      onClick={() => navigate(`${user.id}`)}
-    >
+    <tr className="border-b border-base-300 hover:bg-base-200">
+      <td>
+        <button
+          className="btn btn-ghost btn-xs"
+          onClick={() => toggleFavorite(user.id)}
+          title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+        >
+          {isFavorite ? "★" : "☆"}
+        </button>
+      </td>
       <td>
         <div className="flex items-center gap-3">
           <div className="avatar">
