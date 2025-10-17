@@ -1,5 +1,3 @@
-import { Search } from "lucide-react";
-
 const SearchBar: React.FC<{ value: string; onChange: (v: string) => void }> = ({
   value,
   onChange,

@@ -7,7 +7,6 @@ import UsersPage from "./pages/Users";
 import UserDetailPage from "./pages/UserDetail";
 import { PreferencesProvider } from "./context/UserPreferencesContext";
 import FavoritesPage from "./pages/Favourites";
-import ThemeSwitcher from "./components/ui/theme-switch";
 
 function App() {
   return (

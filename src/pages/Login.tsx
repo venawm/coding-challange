@@ -87,12 +87,12 @@ const LoginPage: React.FC = () => {
                   Remember me
                 </span>
               </label>
-              <button
-                type="button"
+              <a
+                href="/"
                 className="text-primary hover:opacity-80 font-medium transition"
               >
                 Forgot password?
-              </button>
+              </a>
             </div>
 
             {error && (

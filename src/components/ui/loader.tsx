@@ -1,5 +1,3 @@
-import { Loader2 } from "lucide-react";
-
 const LoadingSpinner: React.FC = () => (
   <div className="flex justify-center items-center h-screen">
     <div className="text-center">

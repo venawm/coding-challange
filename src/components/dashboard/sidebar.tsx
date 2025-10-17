@@ -13,14 +13,12 @@ const Sidebar: React.FC = () => {
   const location = useLocation();
   const { logout } = useAuth();
 
-  // 1. Define a handler to close the drawer
+  // Closes the drawer on mobile after clicking a link
   const handleLinkClick = () => {
-    // We need to find the checkbox that controls the drawer
-    const elem = document.getElementById("my-drawer") as HTMLInputElement;
-    if (elem) {
-      // Uncheck the checkbox to close the drawer
-      elem.checked = false;
-    }
+    const drawer = document.getElementById(
+      "my-drawer"
+    ) as HTMLInputElement | null;
+    if (drawer) drawer.checked = false;
   };
 
   const menuItems: MenuItem[] = [
@@ -37,26 +35,28 @@ const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside className="bg-base-100 text-base-content w-64 h-screen md:h-auto flex flex-col">
+    <aside className="bg-base-100 text-base-content w-64 h-screen md:h-auto flex flex-col shadow-sm">
       {/* Logo / Header */}
-      <div className="p-4 flex items-center gap-3 border-b border-base-200">
-        <div className="w-10 h-10 bg-primary text-primary-content rounded-lg flex items-center justify-center font-bold text-xl">
-          U
+      <div className="p-4 flex items-center justify-between border-b border-base-200">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-primary text-primary-content rounded-lg flex items-center justify-center font-bold text-xl">
+            U
+          </div>
+          <span className="font-bold text-xl">User Portal</span>
         </div>
-        <span className="font-bold text-xl">User Portal</span> <ThemeSwitcher />
+        <ThemeSwitcher />
       </div>
 
       {/* Navigation Menu */}
-      <ul className="menu p-4 flex-1 gap-2">
+      <ul className="menu p-4 flex-1 gap-2 w-full">
         {menuItems.map((item) => {
           const isActive = location.pathname === item.href;
           return (
             <li key={item.label} className="w-full">
               <Link
                 to={item.href}
-                // 2. Attach the click handler to each link
                 onClick={handleLinkClick}
-                className={`flex items-center gap-2 px-3 py-2  rounded-md ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-md transition-colors duration-200 ${
                   isActive
                     ? "bg-base-200 font-semibold hover:bg-base-300"
                     : "hover:bg-base-300"
@@ -73,7 +73,7 @@ const Sidebar: React.FC = () => {
       {/* Logout Footer */}
       <div className="p-4 border-t border-base-200">
         <button
-          className="btn btn-ghost w-full justify-start"
+          className="btn btn-ghost w-full justify-start flex items-center gap-2 hover:bg-base-300 transition-colors duration-200"
           onClick={() => logout()}
         >
           <LogOut className="w-5 h-5" />

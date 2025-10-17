@@ -8,7 +8,6 @@ import Pagination from "../components/ui/pagination";
 import ItemsPerPageSelector from "../components/ui/item-per-page-selector";
 import { usePreferences } from "../context/UserPreferencesContext";
 import LoadingSpinner from "../components/ui/loader";
-import ThemeSwitcher from "../components/ui/theme-switch";
 
 const UsersPage: React.FC = () => {
   const preferences = usePreferences();
