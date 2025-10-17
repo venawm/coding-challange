@@ -17,7 +17,10 @@ const UserRow: React.FC<{ user: User }> = ({ user }) => {
       <td>
         <button
           className="btn btn-ghost btn-xs"
-          onClick={() => toggleFavorite(user.id)}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleFavorite(user.id);
+          }}
           title={isFavorite ? "Remove from favorites" : "Add to favorites"}
         >
           {isFavorite ? "★" : "☆"}

@@ -1,10 +1,10 @@
 import { Menu } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
+import { Outlet } from "react-router-dom";
 import Sidebar from "./sidebar";
 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const Layout: React.FC = () => {
   return (
-    <div className="drawer lg:drawer-open ">
+    <div className="drawer lg:drawer-open">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
 
       <div className="drawer-content flex flex-col items-start px-6 py-4">
@@ -17,7 +17,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         </label>
 
         {/* Main Content */}
-        <main className="w-full max-w-7xl mx-auto">{children}</main>
+        <main className="w-full max-w-7xl mx-auto">
+          <Outlet />
+        </main>
       </div>
 
       {/* Sidebar Content */}
@@ -28,7 +30,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           className="drawer-overlay"
         ></label>
 
-        <div className="w-64 min-h-full  border-r border-base-200">
+        <div className="w-64 min-h-full border-r border-base-200">
           <Sidebar />
         </div>
       </div>

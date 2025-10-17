@@ -1,5 +1,6 @@
 import { LogOut, UserCircle, StarIcon } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 type MenuItem = {
   href: string;
@@ -9,6 +10,7 @@ type MenuItem = {
 
 const Sidebar: React.FC = () => {
   const location = useLocation();
+  const { logout } = useAuth();
 
   const menuItems: MenuItem[] = [
     {
@@ -24,7 +26,7 @@ const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside className="bg-base-100 text-base-content w-64 min-h-screen md:min-h-auto flex flex-col">
+    <aside className="bg-base-100 text-base-content w-64 min-h-screen flex flex-col">
       {/* Logo / Header */}
       <div className="p-4 flex items-center gap-3 border-b border-base-200">
         <div className="w-10 h-10 bg-primary text-primary-content rounded-lg flex items-center justify-center font-bold text-xl">
@@ -40,8 +42,8 @@ const Sidebar: React.FC = () => {
 
           return (
             <li key={item.label}>
-              <a
-                href={item.href}
+              <Link
+                to={item.href}
                 className={`flex items-center gap-2 px-3 py-2 rounded-md ${
                   isActive
                     ? "bg-base-200 font-semibold hover:bg-base-300"
@@ -50,7 +52,7 @@ const Sidebar: React.FC = () => {
               >
                 {item.icon}
                 {item.label}
-              </a>
+              </Link>
             </li>
           );
         })}
@@ -58,7 +60,10 @@ const Sidebar: React.FC = () => {
 
       {/* Logout Footer */}
       <div className="p-4 border-t border-base-200">
-        <button className="btn btn-ghost w-full justify-start">
+        <button
+          className="btn btn-ghost w-full justify-start"
+          onClick={() => logout()}
+        >
           <LogOut className="w-5 h-5" />
           Logout
         </button>

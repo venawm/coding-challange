@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import type { User } from "../types";
-import { api } from "../services/api";
+
 import UserRow from "../components/ui/user-row";
 import Pagination from "../components/ui/pagination";
 import { usePreferences } from "../context/UserPreferencesContext";
@@ -12,7 +12,8 @@ const FavoritesPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
 
-  const loadFavorites = async () => {
+  // Fetch users
+  const loadFavorites = useCallback(async () => {
     if (favorites.length === 0) {
       setUsers([]);
       setTotal(0);
@@ -43,22 +44,24 @@ const FavoritesPage: React.FC = () => {
       setTotal(validUsers.length);
 
       const start = (page - 1) * itemsPerPage;
-      setUsers(validUsers.slice(start, start + itemsPerPage) as User[]);
+      setUsers(validUsers.slice(start, start + itemsPerPage));
     } catch (err) {
       console.error("Failed to load favorites:", err);
       setUsers([]);
     } finally {
       setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    loadFavorites();
   }, [favorites, page, itemsPerPage]);
 
+  // Reset page to 1 if favorites change
   useEffect(() => {
-    setPage(1);
-  }, [favorites, setPage]);
+    if (page !== 1) setPage(1);
+  }, [favorites, page, setPage]);
+
+  // Load favorites whenever favorites, page, or itemsPerPage change
+  useEffect(() => {
+    loadFavorites();
+  }, [loadFavorites]);
 
   return (
     <div className="space-y-4">
@@ -104,7 +107,7 @@ const FavoritesPage: React.FC = () => {
                         <th className="bg-base-100">Role</th>
                       </tr>
                     </thead>
-                    <tbody onClick={() => window.location.reload()}>
+                    <tbody>
                       {users.length > 0 ? (
                         users.map((user) => (
                           <UserRow key={user.id} user={user} />

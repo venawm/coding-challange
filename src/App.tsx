@@ -16,37 +16,22 @@ function App() {
         <ThemeSwitcher />
         <PreferencesProvider>
           <Routes>
+            {/* Public */}
             <Route path="/" element={<LoginPage />} />
+
+            {/* Protected routes */}
             <Route
-              path="/dashboard/users"
+              path="/dashboard"
               element={
                 <ProtectedRoute>
-                  <Layout>
-                    <UsersPage />
-                  </Layout>
+                  <Layout />
                 </ProtectedRoute>
               }
-            />
-            <Route
-              path="/dashboard/favourites"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <FavoritesPage />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/users/:userId"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <UserDetailPage />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
+            >
+              <Route path="favourites" element={<FavoritesPage />} />
+              <Route path="users" element={<UsersPage />} />
+              <Route path="users/:userId" element={<UserDetailPage />} />
+            </Route>
           </Routes>
         </PreferencesProvider>
       </AuthProvider>
